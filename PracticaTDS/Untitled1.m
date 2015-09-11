@@ -1,0 +1,66 @@
+x=sin(0.3*pi*[0:999])+ randn(1,1000)*0.01;
+a=lpc(x,2);
+[H,w]=freqz(1,a);plot(w/pi,20*log10(abs(H)))
+shg
+
+h=spectrum.welch;
+psd(h,x)
+shg
+
+x=sin(0.3*pi*[0:999])+ randn(1,1000)*0.2;
+a=lpc(x,2);
+[H,w]=freqz(1,a);plot(w/pi,20*log10(abs(H)))
+shg
+
+
+[a G]=lpc(x,2);
+[H,w]=freqz(G,a);plot(w/pi,20*log10(abs(H)))
+shg
+
+x=sin(0.3*pi*[0:999])+ randn(1,1000)*0.01;
+[a G]=lpc(x,2);
+[H,w]=freqz(G,a);plot(w/pi,20*log10(abs(H)))
+shg
+
+vocal=wavrecord(8000,8000,'double');
+[a G]=lpc(vocal,2);
+[H,w]=freqz(G,a);plot(w/pi,20*log10(abs(H)))
+shg
+psd(h,vocal)
+shg
+
+voz=wavrecord(3*8000,8000,'double');
+salida=[];
+for n=1:300
+    temp=voz((n-1)*80+1:(n*80));
+    [a G]=lpc(temp,15);
+    y=filter(sqrt(G),a,randn(1,80));
+    salida =[salida y];
+end
+soundsc(salida)
+
+
+
+x=zeros(1,80);
+x(1:12:end)=ones(1,7);
+salida=[];
+for n=1:300
+    temp=voz((n-1)*80+1:(n*80));
+    [a G]=lpc(temp,12);
+    y=filter(sqrt(G),a,x);
+    salida =[salida y];
+end
+soundsc(salida)
+
+salida=[];
+u=[];
+for n=1:300
+    temp=voz((n-1)*80+1:(n*80));
+    [a G]=lpc(temp,15);
+    y=filter(sqrt(G),a,randn(1,80));
+    up=filter(a,1,y);
+    salida =[salida y];
+    u=[u up]; 
+end
+soundsc(salida)
+plot(u),shg

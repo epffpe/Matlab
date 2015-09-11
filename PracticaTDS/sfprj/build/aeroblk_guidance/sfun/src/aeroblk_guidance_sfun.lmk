@@ -1,0 +1,34 @@
+CC     = "c:\matlab7\sys\lcc\bin\lcc.exe"
+LD     = "c:\matlab7\sys\lcc\bin\lcclnk.exe"
+LIBCMD = "c:\matlab7\sys\lcc\bin\lcclib.exe"
+CFLAGS = -c -Zp8 -DMATLAB_MEX_FILE -noregistrylookup
+LDFLAGS = -s -dll -L"c:\matlab7\sys\lcc\lib"
+LIBFLAGS = 
+
+OBJECTS = \
+	"aeroblk_guidance_sfun.obj"\
+	"aeroblk_guidance_sfun_registry.obj"\
+	"c1_aeroblk_guidance.obj"\
+	"lccstub.obj"\
+	"c:\matlab7\sys\lcc\mex\lccdef.def"\
+	"c:\matlab7\stateflow\c\debugger\lib\win32\sfc_debuglcc.lib"\
+	"c:\matlab7\stateflow\c\mex\lib\win32\sfc_mexlcc.lib"\
+	"c:\matlab7\extern\lib\win32\lcc\libmex.lib"\
+	"c:\matlab7\extern\lib\win32\lcc\libmx.lib"\
+	"c:\matlab7\extern\lib\win32\lcc\libfixedpoint.lib"\
+	"c:\matlab7\extern\lib\win32\lcc\libut.lib"\
+	"c:\matlab7\toolbox\dspblks\lib\win32\dsp_dyn_rt_lcc.lib"\
+
+INCLUDE_PATH= -I"c:\matlab7\sys\lcc\include"  -I"c:\matlab7\extern\include"  -I"c:\matlab7\simulink\include"  -I"c:\matlab7\stateflow\c\mex\include"  -I"c:\matlab7\stateflow\c\debugger\include"  -I"c:\matlab7\toolbox\eml\lib\dsp"  -I"d:\desings\matlab\practicatds\sfprj\build\aeroblk_guidance\sfun\src"  -I"d:\desings\matlab\practicatds"  -I"c:\matlab7\toolbox\aeroblks\aerodemos" 
+ 
+
+aeroblk_guidance_sfun.dll : $(MAKEFILE) $(OBJECTS)
+	$(LD) $(LDFLAGS) -o aeroblk_guidance_sfun.dll @aeroblk_guidance_sfun.lmko
+aeroblk_guidance_sfun.obj :	"aeroblk_guidance_sfun.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "aeroblk_guidance_sfun.c"
+aeroblk_guidance_sfun_registry.obj :	"aeroblk_guidance_sfun_registry.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "aeroblk_guidance_sfun_registry.c"
+c1_aeroblk_guidance.obj :	"c1_aeroblk_guidance.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c1_aeroblk_guidance.c"
+lccstub.obj :	"c:\matlab7\sys\lcc\mex\lccstub.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c:\matlab7\sys\lcc\mex\lccstub.c"
